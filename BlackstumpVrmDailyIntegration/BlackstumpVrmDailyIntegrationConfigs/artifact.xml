@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="BlackStump_VrmIntegration_addingANewSite_API" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/BlackStump_VrmIntegration_addingANewSite_API.xml</file>
+    </artifact>
+    <artifact name="BlackStump_VrmIntegration_addingANewSite_API_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/BlackStump_VrmIntegration_addingANewSite_API_swagger.yaml</file>
+    </artifact>
+    <artifact name="BlackStump_VrmIntegration_addingANewSite_API_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/BlackStump_VrmIntegration_addingANewSite_API_metadata.yaml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_API" groupId="com.example.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/vrm_installations_widget_API.xml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_API_swagger" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/vrm_installations_widget_API_swagger.yaml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_API_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/vrm_installations_widget_API_metadata.yaml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_endpoint" groupId="com.example.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/endpoints/vrm_installations_widget_endpoint.xml</file>
+    </artifact>
+    <artifact name="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence.xml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_Sequence" groupId="com.example.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/vrm_installations_widget_Sequence.xml</file>
+    </artifact>
+    <artifact name="vrm_installations_widget_graph_Task" groupId="com.example.task" version="1.0.0" type="synapse/task" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/tasks/vrm_installations_widget_graph_Task.xml</file>
+    </artifact>
+    <artifact name="Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy" groupId="com.example.proxy-service" version="1.0.0" type="synapse/proxy-service" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/proxy-services/Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy.xml</file>
+    </artifact>
+    <artifact name="Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy_proxy_metadata" groupId="com.example.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy_proxy_metadata.yaml</file>
+    </artifact>
+</artifacts>

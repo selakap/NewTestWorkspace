@@ -1,0 +1,13 @@
+openapi: 3.0.1
+info:
+  title: vrm_installations_widget_API
+  description: API Definition of vrm_installations_widget_API
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/installations/widget/graphs
+paths:
+  /:
+    get:
+      responses:
+        default:
+          description: Default response

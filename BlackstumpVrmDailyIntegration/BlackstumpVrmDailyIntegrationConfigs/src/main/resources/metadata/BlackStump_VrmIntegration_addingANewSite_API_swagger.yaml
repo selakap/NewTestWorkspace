@@ -1,0 +1,31 @@
+openapi: 3.0.1
+info:
+  title: BlackStump_VrmIntegration_addingANewSite_API
+  description: API Definition of BlackStump_VrmIntegration_addingANewSite_API
+  version: 1.0.0
+servers:
+- url: http://localhost:8290/newsiteid/drupalToWso2
+paths:
+  /{siteId}:
+    put:
+      parameters:
+      - name: siteId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Sample Payload
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+        required: false
+      responses:
+        default:
+          description: Default response

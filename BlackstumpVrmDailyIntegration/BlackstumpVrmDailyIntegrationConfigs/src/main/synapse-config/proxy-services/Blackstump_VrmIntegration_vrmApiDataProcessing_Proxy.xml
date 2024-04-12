@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<proxy name="Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy" startOnLoad="true" transports="http https" xmlns="http://ws.apache.org/ns/synapse">
+    <target>
+        <inSequence>
+            <sequence key="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence"/>
+            <drop description="drop"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </target>
+</proxy>

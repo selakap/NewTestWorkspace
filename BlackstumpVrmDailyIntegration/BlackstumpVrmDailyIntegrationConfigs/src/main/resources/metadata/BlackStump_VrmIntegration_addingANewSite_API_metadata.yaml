@@ -1,0 +1,11 @@
+---
+key: "BlackStump_VrmIntegration_addingANewSite_API-1.0.0"
+name : "BlackStump_VrmIntegration_addingANewSite_API"
+displayName : "BlackStump_VrmIntegration_addingANewSite_API"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/newsiteid/drupalToWso2"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

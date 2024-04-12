@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<esb:EsbDiagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:esb="http:///org/wso2/integrationstudio/eclipse/gmf/esb">
+  <server type="SEQUENCE">
+    <children xsi:type="esb:Sequences" name="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence">
+      <outputConnector>
+        <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.0/@inputConnector"/>
+      </outputConnector>
+      <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@outputConnector/@outgoingLink"/>
+      <mediatorFlow>
+        <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="JSONPayload">
+          <inputConnector incomingLinks="//@server/@children.0/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.1/@inputConnector"/>
+          </outputConnector>
+          <valueExpression propertyValue="json-eval($.IDLIST)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+        </children>
+        <children xsi:type="esb:LogMediator" description="reults" logSeparator=", ">
+          <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.0/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.2/@inputConnector"/>
+          </outputConnector>
+          <properties propertyName="result list" propertyValueType="EXPRESSION" propertyValue="">
+            <propertyExpression propertyValue="get-property('JSONPayload')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+          </properties>
+        </children>
+        <children xsi:type="esb:ScriptMediator" scriptType="INLINE" scriptBody="var response = mc.getProperty(&quot;JSONPayload&quot;);&#xA;        var jsonPayload = JSON.parse(response);&#xA;        mc.setPayloadJSON(jsonPayload);&#xA;        ">
+          <scriptDynamicKey prettyName="" propertyName="dynamic key" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+          <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.1/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.3/@inputConnector"/>
+          </outputConnector>
+          <scriptStaticKey prettyName="Script Key" keyName="key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+        </children>
+        <children xsi:type="esb:LogMediator" logLevel="FULL" logSeparator=", ">
+          <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.2/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.4/@inputConnector"/>
+          </outputConnector>
+        </children>
+        <children xsi:type="esb:LogMediator" description="reults" logSeparator=", ">
+          <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.3/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@inputConnector"/>
+          </outputConnector>
+          <properties propertyName="result list" propertyValueType="EXPRESSION" propertyValue="">
+            <propertyExpression propertyValue="json-eval($.IdList)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+          </properties>
+        </children>
+        <children xsi:type="esb:IterateMediator" iterateID="iterate-over-id" preservePayload="true">
+          <iterateExpression propertyValue="json-eval($.IdList)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+          <attachPath propertyValue="json-eval($.IdList)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+          <target>
+            <sequenceKey prettyName="Sequence Key" keyName="sequence" keyValue="/default/sequence" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+            <endpointKey prettyName="Endpoint Key" keyName="endpoint" keyValue="/default/endpoint" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+          </target>
+          <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.4/@outputConnector/@outgoingLink"/>
+          <outputConnector>
+            <outgoingLink target="//@server/@children.0/@inputConnector"/>
+          </outputConnector>
+          <targetOutputConnector>
+            <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.0/@inputConnector"/>
+          </targetOutputConnector>
+          <mediatorFlow>
+            <children xsi:type="esb:LogMediator" description="reults" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@targetOutputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.1/@inputConnector"/>
+              </outputConnector>
+              <properties propertyName="result list=========================" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="json-eval($.IdList)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="IterateBody">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.0/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.2/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.IdList)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:ScriptMediator" scriptType="INLINE" scriptBody="var response = mc.getProperty(&quot;IterateBody&quot;);&#xA;        var jsonPayload = JSON.parse(response);&#xA;        mc.setPayloadJSON(jsonPayload);">
+              <scriptDynamicKey prettyName="" propertyName="dynamic key" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.1/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.3/@inputConnector"/>
+              </outputConnector>
+              <scriptStaticKey prettyName="Script Key" keyName="key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+            </children>
+            <children xsi:type="esb:LogMediator" description="reults" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.2/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.4/@inputConnector"/>
+              </outputConnector>
+              <properties propertyName="result list=========================" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="json-eval($.SiteID)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:LogMediator" logLevel="FULL" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.3/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.5/@inputConnector"/>
+              </outputConnector>
+              <properties propertyName="SiteID===========" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="json-eval($.SiteID)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="siteID">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.4/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.6/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.SiteID)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="fuel_cost">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.5/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.7/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.fuel_cost)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="gen_fuel_cost">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.6/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.8/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.gen_fuel_cost)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_gen_size">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.7/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.9/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_gen_size)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="comp_gen_size">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.8/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.10/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.comp_gen_size)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_cons_load_25">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.9/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.11/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_cons_load_25)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_cons_load_50">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.10/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.12/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_cons_load_50)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_cons_load_75">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.11/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.13/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_cons_load_75)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_cons_load_100">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.12/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.14/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_cons_load_100)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="sol_cons_load_110">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.13/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.15/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.sol_cons_load_110)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="com_cons_load_25">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.14/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.16/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.com_cons_load_25)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="com_cons_load_50">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.15/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.17/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.com_cons_load_50)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="com_cons_load_75">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.16/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.18/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.com_cons_load_75)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="com_cons_load_100">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.17/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.19/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.com_cons_load_100)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" valueType="EXPRESSION" newPropertyName="com_cons_load_110">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.18/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.20/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.com_cons_load_110)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:DBLookupMediator" connectionDbType="MYSQL" connectionDbDriver="$SYSTEM:integrationMysqlDriver" connectionURL="$SYSTEM:integrationMysqlURL" connectionUsername="$SYSTEM:integrationMysqlUser" connectionPassword="$SYSTEM:integrationMysqlPassword">
+              <sqlStatements queryString="select site_id,timestamp from last_retrieveddatatime where site_id = ?">
+                <parameters valueLiteral="default">
+                  <valueExpression propertyValue="get-property('siteID')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                </parameters>
+                <results propertyName="last_retrieveddatatime" columnId="timestamp"/>
+                <results propertyName="site_id" columnId="site_id"/>
+              </sqlStatements>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.19/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:FilterMediator" conditionType="XPath">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.20/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.22/@inputConnector"/>
+                <commentMediators commentText=" =========================second api call to /installations/widgets/Graph====================================================================== "/>
+              </outputConnector>
+              <passOutputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.0/@inputConnector"/>
+              </passOutputConnector>
+              <failOutputConnector/>
+              <xpath propertyValue="not(boolean(get-property('last_retrieveddatatime')))" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <source prettyName="Filter Source" propertyName="source" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <filterContainer>
+                <passContainer>
+                  <mediatorFlow>
+                    <children xsi:type="esb:LogMediator" logLevel="CUSTOM" logSeparator=", ">
+                      <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@passOutputConnector/@outgoingLink"/>
+                      <outputConnector>
+                        <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@inputConnector"/>
+                      </outputConnector>
+                      <properties propertyName="SiteID found from drupal database but could not find in wso2 system's last_retrieveddatatime. Hence inserting entry: " propertyValueType="EXPRESSION" propertyValue="">
+                        <propertyExpression propertyValue="json-eval($.SiteID)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                      </properties>
+                    </children>
+                    <children xsi:type="esb:FilterMediator" conditionType="XPath">
+                      <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.0/@outputConnector/@outgoingLink"/>
+                      <outputConnector>
+                        <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.2/@inputConnector"/>
+                      </outputConnector>
+                      <passOutputConnector>
+                        <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@filterContainer/@passContainer/@mediatorFlow/@children.0/@inputConnector"/>
+                      </passOutputConnector>
+                      <failOutputConnector/>
+                      <xpath propertyValue="boolean(get-property('site_id'))" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                      <source prettyName="Filter Source" propertyName="source" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                      <filterContainer>
+                        <passContainer>
+                          <mediatorFlow>
+                            <children xsi:type="esb:LogMediator" logLevel="CUSTOM" logSeparator=", ">
+                              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@passOutputConnector/@outgoingLink"/>
+                              <outputConnector>
+                                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@filterContainer/@passContainer/@mediatorFlow/@children.1/@inputConnector"/>
+                              </outputConnector>
+                              <properties propertyName="SiteID found from drupal database but could not find in wso2 system's last_retrieveddatatime or malformed single or multiple entries. Hence deleting the entry/s: " propertyValueType="EXPRESSION" propertyValue="">
+                                <propertyExpression propertyValue="json-eval($.SiteID)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                              </properties>
+                            </children>
+                            <children xsi:type="esb:DBReportMediator" connectionDbType="MYSQL" connectionDbDriver="$SYSTEM:integrationMysqlDriver" connectionURL="$SYSTEM:integrationMysqlURL" connectionUsername="$SYSTEM:integrationMysqlUser" connectionPassword="$SYSTEM:integrationMysqlPassword">
+                              <sqlStatements queryString="delete from last_retrieveddatatime where site_id = ?">
+                                <parameters valueLiteral="default">
+                                  <valueExpression propertyValue="get-property('site_id')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                                </parameters>
+                              </sqlStatements>
+                              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@filterContainer/@passContainer/@mediatorFlow/@children.0/@outputConnector/@outgoingLink"/>
+                              <outputConnector/>
+                            </children>
+                          </mediatorFlow>
+                        </passContainer>
+                        <failContainer>
+                          <mediatorFlow/>
+                        </failContainer>
+                      </filterContainer>
+                    </children>
+                    <children xsi:type="esb:DBReportMediator" connectionDbType="MYSQL" connectionDbDriver="$SYSTEM:integrationMysqlDriver" connectionURL="$SYSTEM:integrationMysqlURL" connectionUsername="$SYSTEM:integrationMysqlUser" connectionPassword="$SYSTEM:integrationMysqlPassword">
+                      <sqlStatements queryString="INSERT INTO last_retrieveddatatime (site_id, timestamp) VALUES (?,UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 6 MONTH)));">
+                        <parameters valueLiteral="default">
+                          <valueExpression propertyValue="get-property('siteID')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                        </parameters>
+                      </sqlStatements>
+                      <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.1/@outputConnector/@outgoingLink"/>
+                      <outputConnector>
+                        <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.3/@inputConnector"/>
+                      </outputConnector>
+                    </children>
+                    <children xsi:type="esb:DBLookupMediator" connectionDbType="MYSQL" connectionDbDriver="$SYSTEM:integrationMysqlDriver" connectionURL="$SYSTEM:integrationMysqlURL" connectionUsername="$SYSTEM:integrationMysqlUser" connectionPassword="$SYSTEM:integrationMysqlPassword">
+                      <sqlStatements queryString="select site_id,timestamp from last_retrieveddatatime where site_id = ?">
+                        <parameters valueLiteral="default">
+                          <valueExpression propertyValue="get-property('siteID')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                        </parameters>
+                        <results propertyName="last_retrieveddatatime" columnId="timestamp"/>
+                        <results propertyName="site_id" columnId="site_id"/>
+                      </sqlStatements>
+                      <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@filterContainer/@passContainer/@mediatorFlow/@children.2/@outputConnector/@outgoingLink"/>
+                      <outputConnector/>
+                    </children>
+                  </mediatorFlow>
+                </passContainer>
+                <failContainer>
+                  <mediatorFlow/>
+                </failContainer>
+              </filterContainer>
+            </children>
+            <children xsi:type="esb:PropertyMediator" propertyName="REST_URL_POSTFIX" propertyAction="remove" propertyScope="axis2">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.21/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.23/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:PropertyMediator" propertyScope="axis2" value="GET" newPropertyName="HTTP_METHOD">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.22/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.24/@inputConnector"/>
+              </outputConnector>
+              <valueExpression prettyName="Property Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" description="QueryParam" propertyName="REST_URL_POSTFIX" propertyScope="axis2" valueType="EXPRESSION">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.23/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.25/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="fn:concat('/v2/installations/',$ctx:siteID, '/widgets/Graph?attributeCodes%5B%5D=OP1&amp;attributeCodes%5B%5D=OP2&amp;attributeCodes%5B%5D=OP3&amp;attributeCodes%5B%5D=IP1&amp;attributeCodes%5B%5D=IP2&amp;attributeCodes%5B%5D=IP3&amp;attributeIds%5B%5D=29&amp;attributeIds%5B%5D=30&amp;attributeIds%5B%5D=31&amp;attributeIds%5B%5D=17&amp;attributeIds%5B%5D=18&amp;attributeIds%5B%5D=19&amp;instance=276&amp;start=',$ctx:last_retrieveddatatime)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:LogMediator" logLevel="CUSTOM" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.24/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.26/@inputConnector"/>
+              </outputConnector>
+              <properties propertyName="REST_URL_POSTFIX+++++++++++++++++++++++++++++++++" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="get-property('axis2', 'REST_URL_POSTFIX')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:HeaderMediator" scope="transport" valueLiteral="Token 00edc0824216d221a4f76d8d292df7fb8a9dbed175582145297d7afc8da7c281">
+              <headerName prettyName="Header Name" propertyName="name" propertyValue="x-authorization" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <valueExpression prettyName="Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.25/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.27/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:HeaderMediator" scope="transport" valueLiteral="application/json">
+              <headerName prettyName="Header Name" propertyName="name" propertyValue="Content-Type" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <valueExpression prettyName="Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.26/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.28/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:CallMediator" endpointType="REGISRTYKEY">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.27/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.29/@inputConnector"/>
+              </outputConnector>
+              <endpointOutputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.28/@mediatorFlow/@children.0/@inputConnector"/>
+              </endpointOutputConnector>
+              <mediatorFlow>
+                <children xsi:type="esb:NamedEndpoint" name="vrm_installations_widget_endpoint">
+                  <reliableMessagingPolicy prettyName="ReliableMessagingPolicy Key" keyName="ReliableMessagingPolicy Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <securityPolicy prettyName="SecurityPolicy Key" keyName="SecurityPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <inboundPolicy prettyName="inboundPolicy Key" keyName="inboundPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <outboundPolicy prettyName="obPolicy Key" keyName="obPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.28/@endpointOutputConnector/@outgoingLink"/>
+                  <dynamicReferenceKey prettyName="Endpoint Expression" propertyName="expression" propertyValue="/default/expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <staticReferenceKey prettyName="Endpoint Key" keyName="Endpoint Key" keyValue="vrm_installations_widget_endpoint" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                </children>
+              </mediatorFlow>
+              <endpointRegistrykey keyValue="vrm_installations_widget_endpoint" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <sourceXPath prettyName="Endpoint XPath" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+            </children>
+            <children xsi:type="esb:LogMediator" logLevel="FULL" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.28/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.30/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:PropertyMediator" description="data records" valueType="EXPRESSION" newPropertyName="data_records">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.29/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.31/@inputConnector"/>
+                <commentMediators commentText=" ============================================================================================================ "/>
+                <commentMediators commentText=" =========================second api call to /installations/siteId/stats====================================================================== "/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.records.data)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" propertyName="REST_URL_POSTFIX" propertyAction="remove" propertyScope="axis2">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.30/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.32/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:PropertyMediator" propertyScope="axis2" value="GET" newPropertyName="HTTP_METHOD">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.31/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.33/@inputConnector"/>
+              </outputConnector>
+              <valueExpression prettyName="Property Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" description="QueryParam" propertyName="REST_URL_POSTFIX" propertyScope="axis2" valueType="EXPRESSION">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.32/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.34/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="fn:concat('/v2/installations/',$ctx:siteID, '/stats?interval=hours&amp;type=live_feed&amp;start=',$ctx:last_retrieveddatatime)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:LogMediator" logLevel="CUSTOM" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.33/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.35/@inputConnector"/>
+              </outputConnector>
+              <properties propertyName="REST_URL_POSTFIX+++++++++++++++++++++++++++++++++" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="get-property('axis2', 'REST_URL_POSTFIX')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:HeaderMediator" scope="transport" valueLiteral="Token 00edc0824216d221a4f76d8d292df7fb8a9dbed175582145297d7afc8da7c281">
+              <headerName prettyName="Header Name" propertyName="name" propertyValue="x-authorization" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <valueExpression prettyName="Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.34/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.36/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:HeaderMediator" scope="transport" valueLiteral="application/json">
+              <headerName prettyName="Header Name" propertyName="name" propertyValue="Content-Type" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <valueExpression prettyName="Expression" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.35/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.37/@inputConnector"/>
+              </outputConnector>
+            </children>
+            <children xsi:type="esb:CallMediator" endpointType="REGISRTYKEY">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.36/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.38/@inputConnector"/>
+              </outputConnector>
+              <endpointOutputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.37/@mediatorFlow/@children.0/@inputConnector"/>
+              </endpointOutputConnector>
+              <mediatorFlow>
+                <children xsi:type="esb:NamedEndpoint" name="vrm_installations_widget_endpoint">
+                  <reliableMessagingPolicy prettyName="ReliableMessagingPolicy Key" keyName="ReliableMessagingPolicy Key" keyValue="/default/key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <securityPolicy prettyName="SecurityPolicy Key" keyName="SecurityPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <inboundPolicy prettyName="inboundPolicy Key" keyName="inboundPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <outboundPolicy prettyName="obPolicy Key" keyName="obPolicy Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.37/@endpointOutputConnector/@outgoingLink"/>
+                  <dynamicReferenceKey prettyName="Endpoint Expression" propertyName="expression" propertyValue="/default/expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                  <staticReferenceKey prettyName="Endpoint Key" keyName="Endpoint Key" keyValue="vrm_installations_widget_endpoint" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+                </children>
+              </mediatorFlow>
+              <endpointRegistrykey keyValue="vrm_installations_widget_endpoint" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              <sourceXPath prettyName="Endpoint XPath" propertyName="expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+            </children>
+            <children xsi:type="esb:PropertyMediator" description="data records" valueType="EXPRESSION" newPropertyName="stats_responce">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.37/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.39/@inputConnector"/>
+              </outputConnector>
+              <valueExpression propertyValue="json-eval($.records)" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078" supportJsonPaths="true"/>
+            </children>
+            <children xsi:type="esb:LogMediator" logLevel="CUSTOM" logSeparator=", ">
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.38/@outputConnector/@outgoingLink"/>
+              <outputConnector>
+                <outgoingLink target="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.40/@inputConnector"/>
+                <commentMediators commentText=" ============================================================================================================ "/>
+              </outputConnector>
+              <properties propertyName="stats_responce" propertyValueType="EXPRESSION" propertyValue="">
+                <propertyExpression propertyValue="get-property('stats_responce')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+            </children>
+            <children xsi:type="esb:ClassMediator" description="custom" className="org.com.blackstumpIntegration.dataManipulation">
+              <properties propertyName="MySqlURL" propertyValueType="EXPRESSION">
+                <propertyExpression propertyValue="get-property('env','integrationMysqlURL')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+              <properties propertyName="MySqlUser" propertyValueType="EXPRESSION">
+                <propertyExpression propertyValue="get-property('env','integrationMysqlUser')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+              <properties propertyName="MySqlPass" propertyValueType="EXPRESSION">
+                <propertyExpression propertyValue="get-property('env','integrationMysqlPassword')" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+              <properties propertyName="InsertQuery" propertyValue="INSERT INTO blackstump_vrm_daily (timestamp, site_id, instance_id , op1, op2, op3, ip1, ip2, ip3, opT, ipT,Load_Percentage_Solarator,Load_Percentage_Comparision,Consumption_Solarator,Consumption_Comparision,SolaratorCost,ComparisionCost,SolaratorCO2,ComparisionCO2,battery_status,battery_power,solar_yeild,consumption,generator) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)">
+                <propertyExpression prettyName="property expression" propertyName="expression" propertyValue="/default/expression" namespaces="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+              </properties>
+              <inputConnector incomingLinks="//@server/@children.0/@mediatorFlow/@children.5/@mediatorFlow/@children.39/@outputConnector/@outgoingLink"/>
+              <outputConnector/>
+            </children>
+          </mediatorFlow>
+          <sequenceKey prettyName="Sequence Reference" keyName="key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+        </children>
+      </mediatorFlow>
+      <onError prettyName="OnError sequence Key" keyName="OnError sequence Key" filters="ACED0005737200116A6176612E7574696C2E486173684D61700507DAC1C31660D103000246000A6C6F6164466163746F724900097468726573686F6C6478703F400000000000007708000000100000000078"/>
+    </children>
+  </server>
+</esb:EsbDiagram>

@@ -1,0 +1,10 @@
+---
+key: "Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy_proxy-1.0.0"
+name : "Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy"
+displayName : "Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy"
+description: "Sample Proxy Service"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/services/Blackstump_VrmIntegration_vrmApiDataProcessing_Proxy"
+definitionType: "WSDL1"
+securityType: "BASIC"
+mutualSSLEnabled: false

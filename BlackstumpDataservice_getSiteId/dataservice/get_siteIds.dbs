@@ -1,0 +1,42 @@
+<data transports="http https" serviceGroup="" serviceNamespace="" name="get_siteIds">
+  <description />
+  <config id="testSiteId">
+    <property name="driverClassName">$SYSTEM:integrationMysqlDriver</property>
+    <property name="url">$SYSTEM:integrationMysqlURL</property>
+    <property name="username">$SYSTEM:integrationMysqlUser</property>
+    <property name="password">$SYSTEM:integrationMysqlPassword</property>
+  </config>
+  <query id="getIds" useConfig="testSiteId">
+    <sql>SELECT site_id,sol_gen_size,comp_gen_size,fuel_cost,gen_fuel_cost,sol_cons_load_25,sol_cons_load_50,sol_cons_load_75,sol_cons_load_100,sol_cons_load_110,com_cons_load_25,com_cons_load_50,com_cons_load_75,com_cons_load_100,com_cons_load_110 FROM s3_bs_installation_data WHERE site_id IS NOT NULL;</sql>
+    <result outputType="json">  { "IDLIST":{
+      "IdList":[
+         {
+            "SiteID":"$site_id","sol_gen_size":"$sol_gen_size","comp_gen_size":"$comp_gen_size","fuel_cost":"$fuel_cost","gen_fuel_cost":"$gen_fuel_cost","sol_cons_load_25":"$sol_cons_load_25","sol_cons_load_50":"$sol_cons_load_50","sol_cons_load_75":"$sol_cons_load_75","sol_cons_load_100":"$sol_cons_load_100","sol_cons_load_110":"$sol_cons_load_110","com_cons_load_25":"$com_cons_load_25","com_cons_load_50":"$com_cons_load_50","com_cons_load_75":"$com_cons_load_75","com_cons_load_100":"$com_cons_load_100","com_cons_load_110":"$com_cons_load_110"
+         }
+      ]
+	}
+}
+   </result>
+  </query>
+    <query id="getIdDetailsBySiteId" useConfig="testSiteId">
+    <sql>SELECT site_id,sol_gen_size,comp_gen_size,fuel_cost,gen_fuel_cost,sol_cons_load_25,sol_cons_load_50,sol_cons_load_75,sol_cons_load_100,sol_cons_load_110,com_cons_load_25,com_cons_load_50,com_cons_load_75,com_cons_load_100,com_cons_load_110 FROM s3_bs_installation_data WHERE site_id =:siteId</sql>
+    <result outputType="json">  { "IDLIST":{
+      "IdList":[
+         {
+            "SiteID":"$site_id","sol_gen_size":"$sol_gen_size","comp_gen_size":"$comp_gen_size","fuel_cost":"$fuel_cost","gen_fuel_cost":"$gen_fuel_cost","sol_cons_load_25":"$sol_cons_load_25","sol_cons_load_50":"$sol_cons_load_50","sol_cons_load_75":"$sol_cons_load_75","sol_cons_load_100":"$sol_cons_load_100","sol_cons_load_110":"$sol_cons_load_110","com_cons_load_25":"$com_cons_load_25","com_cons_load_50":"$com_cons_load_50","com_cons_load_75":"$com_cons_load_75","com_cons_load_100":"$com_cons_load_100","com_cons_load_110":"$com_cons_load_110"
+         }
+      ]
+	}
+}
+   </result>
+   <param name="siteId" sqlType="STRING"/>
+  </query>
+  <operation name="getIdList">
+    <call-query href="getIds" />
+  </operation>
+     <operation name="getIdDetailsUsingSiteId">
+      <call-query href="getIdDetailsBySiteId">
+         <with-param name="siteId" query-param="siteId"/>
+      </call-query>
+   </operation>
+</data>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Symphony/Projects/BlackStump/NewProject/libraries/json-20240205.jar"/>
+	<classpathentry kind="lib" path="C:/Symphony/Projects/BlackStump/NewProject/libraries/mysql-connector-java-8.0.15.jar"/>
+	<classpathentry kind="lib" path="C:/Symphony/Projects/BlackStump/NewProject/libraries/axis2_1.6.1.wso2v20.jar"/>
+	<classpathentry kind="lib" path="C:/Symphony/Projects/BlackStump/NewProject/libraries/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Symphony/Projects/BlackStump/NewProject/libraries/synapse-core-2.1.7-wso2v142.jar"/>
+	<classpathentry kind="output" path="target"/>
+</classpath>

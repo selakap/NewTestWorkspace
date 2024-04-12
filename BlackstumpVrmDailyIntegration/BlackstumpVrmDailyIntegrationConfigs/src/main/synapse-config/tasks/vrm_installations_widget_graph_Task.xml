@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<task class="org.apache.synapse.startup.tasks.MessageInjector" group="synapse.simple.quartz" name="vrm_installations_widget_graph_Task" xmlns="http://ws.apache.org/ns/synapse">
+    <trigger cron="0 0 1,7,13,19 * * ?"/>
+    <property name="injectTo" value="sequence" xmlns:task="http://www.wso2.org/products/wso2commons/tasks"/>
+    <property name="sequenceName" value="vrm_installations_widget_Sequence" xmlns:task="http://www.wso2.org/products/wso2commons/tasks"/>
+    <property name="message" xmlns:task="http://www.wso2.org/products/wso2commons/tasks">
+        <xyz xmlns=""/>
+    </property>
+</task>

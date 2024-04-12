@@ -1,0 +1,11 @@
+---
+key: "vrm_installations_widget_API-1.0.0"
+name : "vrm_installations_widget_API"
+displayName : "vrm_installations_widget_API"
+description: "Sample API"
+version: "1.0.0"
+serviceUrl: "https://{MI_HOST}:{MI_PORT}/installations/widget/graphs"
+definitionType: "OAS3"
+securityType: "BASIC"
+mutualSSLEnabled: false
+apiId : "null"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/installations/widget/graphs" name="vrm_installations_widget_API" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET">
+        <inSequence>
+            <log description="Start" level="custom">
+                <property name="Start" value="Starting the IN flow: /installations API"/>
+            </log>
+            <dataServiceCall description="getIds" serviceName="get_siteIds">
+                <operations type="single">
+                    <operation name="getIdList"/>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <property expression="json-eval($.IDLIST.IdList)" name="JSONPayload_temp" scope="default" type="STRING"/>
+            <filter xpath="not(boolean(get-property('JSONPayload_temp')))">
+                <then>
+                    <log level="custom">
+                        <property name="S3 message: /newsiteid/drupalToWso2/{siteId} - API" value="Empty site ID list from s3_bs_installation_data table. Hence terminating the flow"/>
+                    </log>
+                    <drop/>
+                </then>
+                <else/>
+            </filter>
+            <sequence key="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence"/>
+            <drop/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
