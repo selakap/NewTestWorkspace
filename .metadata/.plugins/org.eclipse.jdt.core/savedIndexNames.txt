@@ -1,0 +1,9 @@
+INDEX VERSION 1.131+C:\Symphony\Projects\BlackStump\OfficialSingle_project\NewModificationswithbatterydata\workspace\.metadata\.plugins\org.eclipse.jdt.core
+3495416558.index
+2337489357.index
+1275866289.index
+1569480974.index
+1865797976.index
+3310566702.index
+3993379171.index
+151862322.index

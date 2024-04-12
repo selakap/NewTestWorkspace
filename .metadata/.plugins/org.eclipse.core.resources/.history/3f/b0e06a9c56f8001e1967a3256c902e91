@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property expression="json-eval($.IDLIST)" name="JSONPayload" scope="default" type="STRING"/>
+    <log description="reults">
+        <property expression="get-property('JSONPayload')" name="result list"/>
+    </log>
+    <script language="js"><![CDATA[var response = mc.getProperty("JSONPayload");
+        var jsonPayload = JSON.parse(response);
+        mc.setPayloadJSON(jsonPayload);]]></script>
+    <log level="full"/>
+    <log description="reults">
+        <property expression="json-eval($.IdList)" name="result list"/>
+    </log>
+    <iterate attachPath="json-eval($.IdList)" expression="json-eval($.IdList)" id="iterate-over-id" preservePayload="true">
+        <target>
+            <sequence>
+                <log description="reults">
+                    <property expression="json-eval($.IdList)" name="result list========================="/>
+                </log>
+                <property expression="json-eval($.IdList)" name="IterateBody" scope="default" type="STRING"/>
+                <script language="js"><![CDATA[var response = mc.getProperty("IterateBody");
+        var jsonPayload = JSON.parse(response);
+        mc.setPayloadJSON(jsonPayload);]]></script>
+                <log description="reults">
+                    <property expression="json-eval($.SiteID)" name="result list========================="/>
+                </log>
+                <log level="full">
+                    <property expression="json-eval($.SiteID)" name="SiteID==========="/>
+                </log>
+                <property expression="json-eval($.SiteID)" name="siteID" scope="default" type="STRING"/>
+                <property expression="json-eval($.fuel_cost)" name="fuel_cost" scope="default" type="STRING"/>
+                <property expression="json-eval($.gen_fuel_cost)" name="gen_fuel_cost" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_gen_size)" name="sol_gen_size" scope="default" type="STRING"/>
+                <property expression="json-eval($.comp_gen_size)" name="comp_gen_size" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_cons_load_25)" name="sol_cons_load_25" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_cons_load_50)" name="sol_cons_load_50" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_cons_load_75)" name="sol_cons_load_75" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_cons_load_100)" name="sol_cons_load_100" scope="default" type="STRING"/>
+                <property expression="json-eval($.sol_cons_load_110)" name="sol_cons_load_110" scope="default" type="STRING"/>
+                <property expression="json-eval($.com_cons_load_25)" name="com_cons_load_25" scope="default" type="STRING"/>
+                <property expression="json-eval($.com_cons_load_50)" name="com_cons_load_50" scope="default" type="STRING"/>
+                <property expression="json-eval($.com_cons_load_75)" name="com_cons_load_75" scope="default" type="STRING"/>
+                <property expression="json-eval($.com_cons_load_100)" name="com_cons_load_100" scope="default" type="STRING"/>
+                <property expression="json-eval($.com_cons_load_110)" name="com_cons_load_110" scope="default" type="STRING"/>
+                <dblookup>
+                    <connection>
+                        <pool>
+                            <driver>$SYSTEM:integrationMysqlDriver</driver>
+                            <url>$SYSTEM:integrationMysqlURL</url>
+                            <user>$SYSTEM:integrationMysqlUser</user>
+                            <password>$SYSTEM:integrationMysqlPassword</password>
+                        </pool>
+                    </connection>
+                    <statement>
+                        <sql><![CDATA[select site_id,timestamp from last_retrieveddatatime where site_id = ?]]></sql>
+                        <parameter expression="get-property('siteID')" type="CHAR"/>
+                        <result column="timestamp" name="last_retrieveddatatime"/>
+                        <result column="site_id" name="site_id"/>
+                    </statement>
+                </dblookup>
+                <filter xpath="not(boolean(get-property('last_retrieveddatatime')))">
+                    <then>
+                        <log level="custom">
+                            <property expression="json-eval($.SiteID)" name="SiteID found from drupal database but could not find in wso2 system's last_retrieveddatatime. Hence inserting entry: "/>
+                        </log>
+                        <filter xpath="boolean(get-property('site_id'))">
+                            <then>
+                                <log level="custom">
+                                    <property expression="json-eval($.SiteID)" name="SiteID found from drupal database but could not find in wso2 system's last_retrieveddatatime or malformed single or multiple entries. Hence deleting the entry/s: "/>
+                                </log>
+                                <dbreport>
+                                    <connection>
+                                        <pool>
+                                            <driver>$SYSTEM:integrationMysqlDriver</driver>
+                                            <url>$SYSTEM:integrationMysqlURL</url>
+                                            <user>$SYSTEM:integrationMysqlUser</user>
+                                            <password>$SYSTEM:integrationMysqlPassword</password>
+                                        </pool>
+                                    </connection>
+                                    <statement>
+                                        <sql><![CDATA[delete from last_retrieveddatatime where site_id = ?]]></sql>
+                                        <parameter expression="get-property('site_id')" type="CHAR"/>
+                                    </statement>
+                                </dbreport>
+                            </then>
+                            <else/>
+                        </filter>
+                        <dbreport>
+                            <connection>
+                                <pool>
+                                    <driver>$SYSTEM:integrationMysqlDriver</driver>
+                                    <url>$SYSTEM:integrationMysqlURL</url>
+                                    <user>$SYSTEM:integrationMysqlUser</user>
+                                    <password>$SYSTEM:integrationMysqlPassword</password>
+                                </pool>
+                            </connection>
+                            <statement>
+                                <sql><![CDATA[INSERT INTO last_retrieveddatatime (site_id, timestamp) VALUES (?,UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 6 MONTH)));]]></sql>
+                                <parameter expression="get-property('siteID')" type="CHAR"/>
+                            </statement>
+                        </dbreport>
+                        <dblookup>
+                            <connection>
+                                <pool>
+                                    <driver>$SYSTEM:integrationMysqlDriver</driver>
+                                    <url>$SYSTEM:integrationMysqlURL</url>
+                                    <user>$SYSTEM:integrationMysqlUser</user>
+                                    <password>$SYSTEM:integrationMysqlPassword</password>
+                                </pool>
+                            </connection>
+                            <statement>
+                                <sql><![CDATA[select site_id,timestamp from last_retrieveddatatime where site_id = ?]]></sql>
+                                <parameter expression="get-property('siteID')" type="CHAR"/>
+                                <result column="timestamp" name="last_retrieveddatatime"/>
+                                <result column="site_id" name="site_id"/>
+                            </statement>
+                        </dblookup>
+                    </then>
+                    <else/>
+                </filter>
+                <!-- =========================second api call to /installations/widgets/Graph====================================================================== -->
+                <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+                <property name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+                <property description="QueryParam" expression="fn:concat('/v2/installations/',$ctx:siteID, '/widgets/Graph?attributeCodes%5B%5D=OP1&amp;attributeCodes%5B%5D=OP2&amp;attributeCodes%5B%5D=OP3&amp;attributeCodes%5B%5D=IP1&amp;attributeCodes%5B%5D=IP2&amp;attributeCodes%5B%5D=IP3&amp;attributeIds%5B%5D=29&amp;attributeIds%5B%5D=30&amp;attributeIds%5B%5D=31&amp;attributeIds%5B%5D=17&amp;attributeIds%5B%5D=18&amp;attributeIds%5B%5D=19&amp;instance=276&amp;start=',$ctx:last_retrieveddatatime)" name="REST_URL_POSTFIX" scope="axis2" type="STRING"/>
+                <log level="custom">
+                    <property expression="get-property('axis2', 'REST_URL_POSTFIX')" name="REST_URL_POSTFIX+++++++++++++++++++++++++++++++++"/>
+                </log>
+                <header name="x-authorization" scope="transport" value="Token 00edc0824216d221a4f76d8d292df7fb8a9dbed175582145297d7afc8da7c281"/>
+                <header name="Content-Type" scope="transport" value="application/json"/>
+                <call>
+                    <endpoint key="vrm_installations_widget_endpoint"/>
+                </call>
+                <log level="full"/>
+                <property description="data records" expression="json-eval($.records.data)" name="data_records" scope="default" type="STRING"/>
+                <!-- ============================================================================================================ -->
+                <!-- =========================second api call to /installations/siteId/stats====================================================================== -->
+                <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+                <property name="HTTP_METHOD" scope="axis2" type="STRING" value="GET"/>
+                <property description="QueryParam" expression="fn:concat('/v2/installations/',$ctx:siteID, '/stats?interval=hours&amp;type=live_feed&amp;start=',$ctx:last_retrieveddatatime)" name="REST_URL_POSTFIX" scope="axis2" type="STRING"/>
+                <log level="custom">
+                    <property expression="get-property('axis2', 'REST_URL_POSTFIX')" name="REST_URL_POSTFIX+++++++++++++++++++++++++++++++++"/>
+                </log>
+                <header name="x-authorization" scope="transport" value="Token 00edc0824216d221a4f76d8d292df7fb8a9dbed175582145297d7afc8da7c281"/>
+                <header name="Content-Type" scope="transport" value="application/json"/>
+                <call>
+                    <endpoint key="vrm_installations_widget_endpoint"/>
+                </call>
+                <log level="full"/>
+                <property description="data records" expression="json-eval($.records.bs)" name="battery_status" scope="default" type="STRING"/>
+                <property description="data records" expression="json-eval($.records.bv)" name="battery_power" scope="default" type="STRING"/>
+                <property description="data records" expression="json-eval($.records.total_solar_yield)" name="solar_yield" scope="default" type="STRING"/>
+                <property description="data records" expression="json-eval($.records.total_consumption)" name="consumption" scope="default" type="STRING"/>
+                <property description="data records" expression="json-eval($.records.total_genset)" name="genset" scope="default" type="STRING"/>
+                <log level="custom">
+                    <property expression="get-property('battery_status')" name="battery_status"/>
+                    <property expression="get-property('battery_power')" name="battery_power"/>
+                    <property expression="get-property('solar_yield')" name="solar_yield"/>
+                    <property expression="get-property('consumption')" name="consumption"/>
+                    <property expression="get-property('genset')" name="genset"/>
+                </log>
+                <!-- ============================================================================================================ -->
+                <class description="custom" name="org.com.blackstumpIntegration.dataManipulation">
+                    <property expression="get-property('env','integrationMysqlURL')" name="MySqlURL"/>
+                    <property expression="get-property('env','integrationMysqlUser')" name="MySqlUser"/>
+                    <property expression="get-property('env','integrationMysqlPassword')" name="MySqlPass"/>
+                    <property name="InsertQuery" value="INSERT INTO blackstump_vrm_daily (timestamp, site_id, instance_id , op1, op2, op3, ip1, ip2, ip3, opT, ipT,Load_Percentage_Solarator,Load_Percentage_Comparision,Consumption_Solarator,Consumption_Comparision,SolaratorCost,ComparisionCost,SolaratorCO2,ComparisionCO2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"/>
+                </class>
+            </sequence>
+        </target>
+    </iterate>
+</sequence>

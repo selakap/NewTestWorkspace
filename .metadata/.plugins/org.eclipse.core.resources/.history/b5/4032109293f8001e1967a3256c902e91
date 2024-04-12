@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/newsiteid/drupalToWso2" name="BlackStump_VrmIntegration_addingANewSite_API" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="PUT" uri-template="/{siteId}">
+        <inSequence>
+            <log description="Start" level="custom">
+                <property expression="get-property('uri.var.siteId')" name="Starting the IN flow: /newsiteid/drupalToWso2/ API"/>
+            </log>
+            <dblookup>
+                <connection>
+                    <pool>
+                        <driver>$SYSTEM:integrationMysqlDriver</driver>
+                        <url>$SYSTEM:integrationMysqlURL</url>
+                        <user>$SYSTEM:integrationMysqlUser</user>
+                        <password>$SYSTEM:integrationMysqlPassword</password>
+                    </pool>
+                </connection>
+                <statement>
+                    <sql><![CDATA[SELECT site_id FROM last_retrieveddatatime where site_id = ?]]></sql>
+                    <parameter expression="get-property('uri.var.siteId')" type="CHAR"/>
+                    <result column="site_id" name="site_id_fromlast_retrieveddatatime"/>
+                </statement>
+            </dblookup>
+            <dataServiceCall serviceName="get_siteIds">
+                <operations type="single">
+                    <operation name="getIdDetailsUsingSiteId">
+                        <param evaluator="xml" expression="get-property('uri.var.siteId')" name="siteId"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+            <log description="reults">
+                <property expression="json-eval($.IDLIST.IdList)" name="Responce from data service"/>
+            </log>
+            <property expression="json-eval($.IDLIST.IdList.SiteID)" name="siteId" scope="default" type="STRING"/>
+            <filter xpath="boolean(get-property('site_id_fromlast_retrieveddatatime'))">
+                <then>
+                    <filter xpath="boolean(get-property('siteId'))">
+                        <then>
+                            <log description="Start" level="custom">
+                                <property name="S3 message: /newsiteid/drupalToWso2/{siteId} - API" value="site ID and could find in last_retrieveddatatime. Hence terminating the flow and rsponding back"/>
+                            </log>
+                            <payloadFactory media-type="json">
+                                <format>
+                        {
+  "Status": {
+    "message": "siteId found from s3 internal database. Hence this is an already registered site. Please contact s3-integration support for further details"
+  }
+}
+    </format>
+                                <args/>
+                            </payloadFactory>
+                            <property name="HTTP_SC" scope="axis2" type="STRING" value="409"/>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                            <respond description="res"/>
+                        </then>
+                        <else>
+                            <log description="Start" level="custom">
+                                <property name="S3 message: /newsiteid/drupalToWso2/{siteId} - API" value="site ID and could find in last_retrieveddatatime. Hence terminating the flow and rsponding back"/>
+                            </log>
+                            <payloadFactory media-type="json">
+                                <format>
+                        {
+  "Status": {
+    "message": "siteId found from s3 internal database. but not from drupal database. Fatal scenario, Please get an action asap"
+  }
+}
+    </format>
+                                <args/>
+                            </payloadFactory>
+                            <property name="HTTP_SC" scope="axis2" type="STRING" value="409"/>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                            <respond description="res"/>
+                        </else>
+                    </filter>
+                </then>
+                <else>
+                    <filter xpath="boolean(get-property('siteId'))">
+                        <then>
+                            <log description="Start" level="custom">
+                                <property name="S3 message: /newsiteid/drupalToWso2/{siteId} - API" value="New site ID and could not find in last_retrieveddatatime. Hence inserting the data"/>
+                            </log>
+                            <dbreport>
+                                <connection>
+                                    <pool>
+                                        <driver>$SYSTEM:integrationMysqlDriver</driver>
+                                        <url>$SYSTEM:integrationMysqlURL</url>
+                                        <user>$SYSTEM:integrationMysqlUser</user>
+                                        <password>$SYSTEM:integrationMysqlPassword</password>
+                                    </pool>
+                                </connection>
+                                <statement>
+                                    <sql><![CDATA[INSERT INTO last_retrieveddatatime (site_id, timestamp) VALUES (?,FLOOR(UNIX_TIMESTAMP(DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (MINUTE(NOW()) % 60) MINUTE), '%Y-%m-%d %H:00:00')) - (6 * 30 * 24 * 3600)));]]></sql>
+                                    <parameter expression="get-property('uri.var.siteId')" type="CHAR"/>
+                                </statement>
+                            </dbreport>
+                        </then>
+                        <else>
+                            <log description="Start" level="custom">
+                                <property name="S3 message: /newsiteid/drupalToWso2/{siteId} - API" value="Could not find the siteId from s3_bs_installation_data table"/>
+                            </log>
+                            <payloadFactory media-type="json">
+                                <format>
+                        {
+  "Status": {
+    "message": "Could not find the siteId in the systems. Please re-check and send again"
+  }
+}
+    </format>
+                                <args/>
+                            </payloadFactory>
+                            <property name="HTTP_SC" scope="axis2" type="STRING" value="400"/>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+                            <respond description="res"/>
+                        </else>
+                    </filter>
+                </else>
+            </filter>
+            <sequence key="Blackstump_VrmIntegration_vrmApiDataProcessing_Sequence"/>
+            <payloadFactory media-type="json">
+                <format>
+                        {
+  "Status": {
+    "message": "Successfully inserted the data to the system"
+  }
+}
+    </format>
+                <args/>
+            </payloadFactory>
+            <property name="HTTP_SC" scope="axis2" type="STRING" value="200"/>
+            <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+            <respond description="res"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
