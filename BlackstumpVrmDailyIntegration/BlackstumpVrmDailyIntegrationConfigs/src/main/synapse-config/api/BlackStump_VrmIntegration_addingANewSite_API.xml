@@ -3,11 +3,8 @@
     <resource methods="PUT" uri-template="/{siteId}">
         <inSequence>
             <log description="Start" level="custom">
-<<<<<<< HEAD
                 <property expression="get-property('uri.var.siteId')" name="Starting the IN flow: /newsiteid/drupalToWso2/ API=========================================++++++++++++++++++++++++-----------"/>
-=======
-                <property expression="get-property('uri.var.siteId')" name="Starting the IN flow: /newsiteid/drupalToWso2/ API++++++++++====================]]]]]]]]]]"/>
->>>>>>> 1f3e8070cc90af436bb1e94a38c953394d449367
+
             </log>
             <dblookup>
                 <connection>
