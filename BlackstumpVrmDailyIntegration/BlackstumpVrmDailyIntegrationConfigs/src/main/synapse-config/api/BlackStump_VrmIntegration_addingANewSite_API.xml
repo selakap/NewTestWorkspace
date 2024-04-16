@@ -45,7 +45,7 @@
                                 <format>
                         {
   "Status": {
-    "message": "siteId found from s3 internal database. Hence this is an already registered site. Please contact s3-integration support for further details"
+    "message": "siteId found from s3 internal database. Hence this is an already registered site. Please contact s3-integration support for further details bluh bluh bluh"
   }
 }
     </format>
